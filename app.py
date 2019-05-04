@@ -25,7 +25,6 @@ def get_param(i):
     value is not string, returns None.
     """
     try:
-        raise Exception(repr(request.data))
         req_body = json.loads(request.data.decode('utf-8'))
         if not req_body or i not in req_body:
             return None

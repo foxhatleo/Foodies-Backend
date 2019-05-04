@@ -30,9 +30,9 @@ class Food(Base):
     end_time = db.Column(db.Time, nullable=False)
     date = db.Column(db.Date, nullable=False)
     tags = db.Column(db.String, nullable=False)
-    image = db.Column(db.Text, nullable=True)
+    image = db.Column(db.Text, nullable=True, default="")
 
-    def __init__(self, title, location, location_detail, description, date, tags, start_time, end_time, image=None):
+    def __init__(self, title, location, location_detail, description, date, tags, start_time, end_time, image=""):
         super(Food, self).__init__()
         self.title = title
         self.location = location

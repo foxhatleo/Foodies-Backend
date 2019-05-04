@@ -29,14 +29,16 @@ class Food(Base):
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     date = db.Column(db.Date, nullable=False)
+    tags = db.Column(db.String, nullable=False)
 
-    def __init__(self, title, location, location_detail, description, date, start_time, end_time):
+    def __init__(self, title, location, location_detail, description, date, tags, start_time, end_time):
         super(Food, self).__init__()
         self.title = title
         self.location = location
         self.location_detail = location_detail
         self.description = description
         self.date = date
+        self.tags = tags
         self.start_time = start_time
         self.end_time = end_time
 
@@ -44,6 +46,7 @@ class Food(Base):
         st = self.start_time.strftime("%I:%M %p")
         et = self.end_time.strftime("%I:%M %p")
         da = self.date.strftime("%b %w, %Y")
+        ta = self.tags.split("\r")
         return {**(super(Food, self).serialise()), **{
             'title': self.title,
             'location': self.location,
@@ -52,6 +55,7 @@ class Food(Base):
             'start_time': st,
             'end_time': et,
             'date': da,
+            'tags': ta,
         }}
 
 
@@ -63,12 +67,14 @@ def insert_initial_values(*args, **kwargs):
                         description="Food from hell. Yum!",
                         date=date(2019, 5, 15),
                         start_time=time(12, 0, 0),
-                        end_time=time(15, 0, 0)))
+                        end_time=time(15, 0, 0),
+                        tags="West\rmeals"))
     db.session.add(Food(title="Chinese food",
                         location="Risley",
                         location_detail="Cowcliff",
                         description="Orange chicken!",
                         date=date(2019, 6, 1),
                         start_time=time(15, 0, 0),
-                        end_time=time(16, 0, 0)))
+                        end_time=time(16, 0, 0),
+                        tags="North\rsnacks"))
     db.session.commit()

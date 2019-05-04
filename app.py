@@ -40,7 +40,7 @@ def hello_world():
 
 @app.route('/api/foods/', methods=['GET'])
 def get_foods():
-    foods = Food.query.all()
+    foods = Food.query.order_by(Food.created_on.desc()).all()
     r = {'success': True, 'data': [p.serialise() for p in foods]}
     return json.dumps(r), 200, {'ContentType': 'application/json'}
 

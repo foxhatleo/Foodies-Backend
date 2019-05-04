@@ -35,8 +35,8 @@ def get_param(i):
 
 @app.route('/')
 def hello_world():
-    with open("index.html", 'r') as fin:
-        print(fin.read())
+    with open("./index.html", 'r') as fin:
+        return fin.read()
 
 
 @app.route('/api/foods/', methods=['GET'])

@@ -49,6 +49,7 @@ def get_foods():
 def create_food():
     e = ""
     try:
+        e = e + "s"
         title = get_param('title')
         location = get_param('location')
         location_detail = get_param('location_detail')

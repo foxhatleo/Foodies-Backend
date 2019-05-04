@@ -48,7 +48,7 @@ def get_foods():
 @app.route('/api/foods/', methods=['POST'])
 def create_food():
     try:
-        title = get_param('name')
+        title = get_param('title')
         location = get_param('location')
         location_detail = get_param('location_detail')
         description = get_param('description')
@@ -61,8 +61,8 @@ def create_food():
         # If the request is a good one:
         if all(p is not None for p in params):
             start_time = datetime.strptime(start_time, "%H:%M").time()
-            end_time = datetime.strptime(start_time, "%H:%M").time()
-            date = datetime.strptime(start_time, "%m/$d/$y").date()
+            end_time = datetime.strptime(end_time, "%H:%M").time()
+            date = datetime.strptime(date, "%m/%d/%y").date()
             food = Food(title=title, location=location, location_detail=location_detail,
                         description=description, start_time=start_time, end_time=end_time, date=date)
             db.session.add(food)
@@ -70,7 +70,7 @@ def create_food():
 
             return json.dumps({'success': True, 'data': food.serialise()}), 200, {'ContentType': 'application/json'}
         else:
-            raise Exception("params wrong, params: " + params)
+            raise Exception("params wrong, params: " + str(params))
 
     # If the request is bad, respond with 400.
     except Exception as e:

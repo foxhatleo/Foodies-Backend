@@ -1,6 +1,6 @@
 import json
 from db import db, Food
-from flask import Flask, request
+from flask import Flask, request, redirect
 from datetime import datetime
 
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def get_param(i):
 
 @app.route('/')
 def hello_world():
-    return "Hello, World!"
+    return redirect("https://en.wikipedia.org/wiki/Foodie", code=302)
 
 
 @app.route('/api/foods/', methods=['GET'])

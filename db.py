@@ -11,10 +11,12 @@ class Base(db.Model):
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def serialise(self):
+        co = self.created_on.strftime("%b %w, %Y %I:%M %p")
+        uo = self.updated_on.strftime("%b %w, %Y %I:%M %p")
         return {
             'id': self.id,
-            'created_on': self.created_on,
-            'updated_on': self.updated_on,
+            'created_on': co,
+            'updated_on': uo,
         }
 
 
@@ -37,13 +39,15 @@ class Food(Base):
         self.end_time = end_time
 
     def serialise(self):
+        st = self.start_time.strftime("%I:%M %p")
+        et = self.end_time.strftime("%I:%M %p")
         return {**(super(Food, self).serialise()), **{
             'title': self.title,
             'location': self.location,
             'location_detail': self.location_detail,
             'description': self.description,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
+            'start_time': st,
+            'end_time': et,
         }}
 
 

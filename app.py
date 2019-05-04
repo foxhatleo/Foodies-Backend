@@ -1,10 +1,10 @@
 import json
 from db import db, Food
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
-db_filename = 'hackc.db'
+db_filename = 'foodies.db'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % db_filename
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -47,13 +47,19 @@ def get_foods():
 @app.route('/api/foods/', methods=['POST'])
 def create_food():
     try:
-        name = get_param('name')
+        title = get_param('name')
         location = get_param('location')
+        location_detail = get_param('location')
         description = get_param('description')
+        start_time = get_param('start_time')
+        end_time = get_param('end_time')
+
+        params = [title, location, location_detail, description, start_time, end_time]
 
         # If the request is a good one:
-        if name is not None and location is not None and description is not None:
-            food = Food(name, location, description)
+        if all(p is not None for p in params):
+            food = Food(title=title, location=location, location_detail=location_detail,
+                        description=description, start_time=start_time, end_time=end_time)
             db.session.add(food)
             db.session.commit()
 

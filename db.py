@@ -1,4 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, event
+from datetime import time
 
 db = SQLAlchemy()
 
@@ -19,19 +20,39 @@ class Base(db.Model):
 
 class Food(Base):
     __tablename__ = 'food'
-    name = db.Column(db.String, nullable=False)
-    location = db.Column(db.String, nullable=False)  # TODO: change to two floats
+    title = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    location_detail = db.Column(db.String, nullable=True)
     description = db.Column(db.Text, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
 
-    def __init__(self, name, location, description):
+    def __init__(self, title, location, location_detail, description, start_time, end_time):
         super(Food, self).__init__()
-        self.name = name
+        self.title = title
         self.location = location
+        self.location_detail = location_detail
         self.description = description
+        self.start_time = start_time
+        self.end_time = end_time
 
     def serialise(self):
         return {**(super(Food, self).serialise()), **{
-            'name': self.name,
+            'title': self.title,
             'location': self.location,
+            'location_detail': self.location_detail,
             'description': self.description,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
         }}
+
+
+@event.listens_for(Food.__table__, 'after_create')
+def insert_initial_values(*args, **kwargs):
+    db.session.add(Food(title="Hell food",
+                        location="Hell",
+                        location_detail="Do something bad and you'll be there.",
+                        description="Food from hell. Yum!",
+                        start_time=time(12, 0, 0),
+                        end_time=time(15, 0, 0)))
+    db.session.commit()

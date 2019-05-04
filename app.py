@@ -73,7 +73,7 @@ def create_food():
             raise Exception("params wrong, params: " + str(params))
 
     # If the request is bad, respond with 400.
-    except Exception as e:
+    except BaseException as e:
         return json.dumps({'success': False, 'error': str(e)}), 400,\
                {'ContentType': 'application/json'}
 

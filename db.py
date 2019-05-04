@@ -24,14 +24,15 @@ class Food(Base):
     __tablename__ = 'food'
     title = db.Column(db.String, nullable=False)
     location = db.Column(db.String, nullable=False)
-    location_detail = db.Column(db.String, nullable=True)
+    location_detail = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     date = db.Column(db.Date, nullable=False)
     tags = db.Column(db.String, nullable=False)
+    image = db.Column(db.Text, nullable=True)
 
-    def __init__(self, title, location, location_detail, description, date, tags, start_time, end_time):
+    def __init__(self, title, location, location_detail, description, date, tags, start_time, end_time, image=None):
         super(Food, self).__init__()
         self.title = title
         self.location = location
@@ -41,6 +42,7 @@ class Food(Base):
         self.tags = tags
         self.start_time = start_time
         self.end_time = end_time
+        self.image = image
 
     def serialise(self):
         st = self.start_time.strftime("%I:%M %p")
@@ -56,6 +58,7 @@ class Food(Base):
             'end_time': et,
             'date': da,
             'tags': ta,
+            'image': self.image,
         }}
 
 

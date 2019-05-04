@@ -65,7 +65,10 @@ def create_food():
             end_time = datetime.strptime(end_time, "%H:%M").time()
             date = datetime.strptime(date, "%m/%d/%Y").date()
             tags = "\r".join(tags)
-            food = Food(title=title, location=location, location_detail=location_detail, tags=tags,
+            image = get_param("image")
+            if image is None or image == "":
+                image = ""
+            food = Food(title=title, location=location, location_detail=location_detail, tags=tags, image=image,
                         description=description, start_time=start_time, end_time=end_time, date=date)
             db.session.add(food)
             db.session.commit()

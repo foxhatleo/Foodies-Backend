@@ -61,8 +61,8 @@ def create_food():
 
         # If the request is a good one:
         if all(p is not None for p in params):
-            start_time = datetime.strptime(start_time, "%-I:%M %p").time()
-            end_time = datetime.strptime(end_time, "%-I:%M %p").time()
+            start_time = datetime.strptime(start_time, "%I:%M %p").time()
+            end_time = datetime.strptime(end_time, "%I:%M %p").time()
             date = datetime.strptime(date, "%m/%d/%Y").date()
             tags = "\r".join(tags)
             image = get_param("image")

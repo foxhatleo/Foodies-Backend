@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy, event
-from datetime import time, date
+from datetime import time, date, datetime
 
 db = SQLAlchemy()
 
@@ -7,12 +7,12 @@ db = SQLAlchemy()
 class Base(db.Model):
     __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
-    created_on = db.Column(db.DateTime, server_default=db.func.now())
-    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    created_on = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    updated_on = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     def serialise(self):
-        co = self.created_on.strftime("%b %w, %Y %I:%M %p")
-        uo = self.updated_on.strftime("%b %w, %Y %I:%M %p")
+        co = self.created_on.strftime("%b ") + str(self.created_on.day) + self.created_on.strftime(", %Y %I:%M %p")
+        uo = self.updated_on.strftime("%b ") + str(self.updated_on.day) + self.created_on.strftime(", %Y %I:%M %p")
         return {
             'id': self.id,
             'created_on': co,
@@ -47,7 +47,7 @@ class Food(Base):
     def serialise(self):
         st = self.start_time.strftime("%I:%M %p")
         et = self.end_time.strftime("%I:%M %p")
-        da = self.date.strftime("%b %w, %Y")
+        da = self.date.strftime("%b ") + str(self.created_on.day) + self.date.strftime(", %Y")
         ta = self.tags.split("\r")
         return {**(super(Food, self).serialise()), **{
             'title': self.title,

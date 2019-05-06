@@ -61,7 +61,20 @@ Returns:
 ```JSON
 {
   "success": true,
-  "data": <food data>
+  "data": {
+    "id": 2,
+    "created_on": "May 4, 2019 3:20 am",
+    "updated_on": "May 5, 2019 4:40 pm",
+    "title": "Burgers at English class",
+    "location": "Tatkon",
+    "location_detail": "Lobby",
+    "description": "Vegan option available.",
+    "start_time": "5:10 pm",
+    "end_time": "7:10 pm",
+    "date": "May 10, 2019",
+    "tags": ["South", "meals"],
+    "image": "<base64 of image data or empty string>"
+  }
 }
 ```
 or, in case of failure:

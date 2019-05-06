@@ -65,20 +65,20 @@ class Food(Base):
 
 @event.listens_for(Food.__table__, 'after_create')
 def insert_initial_values(*args, **kwargs):
-    db.session.add(Food(title="Hell food",
-                        location="Hell",
-                        location_detail="Do something bad and you'll be there.",
-                        description="Food from hell. Yum!",
-                        date=date(2019, 5, 15),
-                        start_time=time(12, 0, 0),
-                        end_time=time(15, 0, 0),
-                        tags="West\rmeals"))
-    db.session.add(Food(title="Chinese food",
-                        location="Risley",
-                        location_detail="Cowcliff",
-                        description="Orange chicken!",
-                        date=date(2019, 6, 1),
-                        start_time=time(15, 0, 0),
-                        end_time=time(16, 0, 0),
-                        tags="North\rsnacks"))
+    # db.session.add(Food(title="Hell food",
+    #                     location="Hell",
+    #                     location_detail="Do something bad and you'll be there.",
+    #                     description="Food from hell. Yum!",
+    #                     date=date(2019, 5, 15),
+    #                     start_time=time(12, 0, 0),
+    #                     end_time=time(15, 0, 0),
+    #                     tags="West\rmeals"))
+    # db.session.add(Food(title="Chinese food",
+    #                     location="Risley",
+    #                     location_detail="Cowcliff",
+    #                     description="Orange chicken!",
+    #                     date=date(2019, 6, 1),
+    #                     start_time=time(15, 0, 0),
+    #                     end_time=time(16, 0, 0),
+    #                     tags="North\rsnacks"))
     db.session.commit()

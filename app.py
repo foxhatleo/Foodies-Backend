@@ -35,11 +35,13 @@ def get_param(i):
 
 @app.route("/")
 def hello_world():
+    """Root page."""
     return redirect("https://en.wikipedia.org/wiki/Foodie", code=302)
 
 
 @app.route("/api/foods/", methods=["GET"])
 def get_foods():
+    """Get all foods."""
     foods = Food.query.order_by(Food.created_on.desc()).all()
     r = {"success": True, "data": [p.serialise() for p in foods]}
     return json.dumps(r), 200, {"ContentType": "application/json"}
@@ -47,6 +49,7 @@ def get_foods():
 
 @app.route("/api/foods/", methods=["POST"])
 def create_food():
+    """Create a new food."""
     try:
         title = get_param("title")
         location = get_param("location")
@@ -75,37 +78,36 @@ def create_food():
 
             return json.dumps({"success": True, "data": food.serialise()}), 200, {"ContentType": "application/json"}
         else:
-            raise Exception("params wrong, params: " + str(params))
+            raise Exception("Params wrong")
 
     # If the request is bad, respond with 400.
-    except Exception as e:
-        return json.dumps({"success": False, "error": str(e)}), 400,\
-               {"ContentType": "application/json"}
+    except:
+        return json.dumps({"success": False}), 400, {"ContentType": "application/json"}
 
 
-@app.route("/api/food/<int:food_id>/", methods=["GET"])
-def get_food(food_id):
-    found_food = Food.query.filter_by(id=food_id).first()
-    if not found_food:
-        return json.dumps({"success": False}), 404, \
-               {"ContentType": "application/json"}
-    else:
-        d = found_food.serialise()
-        return json.dumps({"success": True, "data": d}), 200, \
-               {"ContentType": "application/json"}
+# @app.route("/api/food/<int:food_id>/", methods=["GET"])
+# def get_food(food_id):
+#     found_food = Food.query.filter_by(id=food_id).first()
+#     if not found_food:
+#         return json.dumps({"success": False}), 404, \
+#                {"ContentType": "application/json"}
+#     else:
+#         d = found_food.serialise()
+#         return json.dumps({"success": True, "data": d}), 200, \
+#                {"ContentType": "application/json"}
 
 
-@app.route("/api/food/<int:food_id>/", methods=["DELETE"])
-def delete_food(food_id):
-    found_food = Food.query.filter_by(id=food_id).first()
-    if not found_food:
-        return json.dumps({"success": False}), 404, {"ContentType": "application/json"}
-    else:
-        d = found_food.serialise()
-        db.session.delete(found_food)
-        db.session.commit()
-        return json.dumps({"success": True, "data": d}), 200, \
-               {"ContentType": "application/json"}
+# @app.route("/api/food/<int:food_id>/", methods=["DELETE"])
+# def delete_food(food_id):
+#     found_food = Food.query.filter_by(id=food_id).first()
+#     if not found_food:
+#         return json.dumps({"success": False}), 404, {"ContentType": "application/json"}
+#     else:
+#         d = found_food.serialise()
+#         db.session.delete(found_food)
+#         db.session.commit()
+#         return json.dumps({"success": True, "data": d}), 200, \
+#                {"ContentType": "application/json"}
 
 
 if __name__ == "__main__":
